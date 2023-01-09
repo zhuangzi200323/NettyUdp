@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static ActivityMainBinding uiBinding;
     private static String broadCastIp = "";
+    private static String ip = "";
     private ChannelHandlerContext channelHandlerContext;
     private DatagramPacket datagramPacket;
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what){
                 case SEND_UDP_CLIENT_DATA:
                     String broadMsg = broadCastIp + "." + System.currentTimeMillis();
-                    uiBinding.clientSendTv.setText("send data: " + broadMsg);
+                    uiBinding.clientSendTv.setText("send data: " + ip);
                     UdpClientMgr.getInstance().sendBoradcastMsg(broadCastIp, broadMsg);
                     break;
                 case RECV_UDP_CLIENT_DATA:
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         handler = new MyHandler();
         uiBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         broadCastIp = NetUtils.getBroadcastIp(this);
+        ip = NetUtils.getIp(this);
     }
 
     public void startUdpClient(View view) {
